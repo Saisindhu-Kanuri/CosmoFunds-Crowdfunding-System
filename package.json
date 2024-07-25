@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@nomicfoundation/hardhat-ethers": "^3.0.6",
-    "ethers": "^6.7.0",
+    "ethers": "^5.7.2",
     "hardhat": "^2.22.6",
     "next": "14.2.5",
     "react": "^18",

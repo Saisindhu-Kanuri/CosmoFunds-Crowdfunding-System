@@ -1,14 +1,12 @@
 import React, { useState, useEffect } from "react";
-import Web3Modal from "web3modal";  // Ensure the import is correct
-import { ethers } from "ethers";
-
-// INTERNAL IMPORT
-import { CrowdFundingABI, CrowdFundingAddress } from "../constants";
+import Web3Modal from "web3modal";
+import { ethers, providers } from "ethers";
 
 
-  // Ensure the path and names are correct
-
-// ---FETCHING SMART CONTRACT
+import { CrowdFundingABI, CrowdFundingAddress } from "./constants";
+let provider = new ethers.providers.JsonRpcProvider(
+    "HTTP://172.20.80.1:7545"
+  );
 function fetchContract(signerOrProvider) {
     return new ethers.Contract(CrowdFundingAddress, CrowdFundingABI, signerOrProvider);
 }
@@ -21,19 +19,19 @@ export const CrowdFundingProvider = ({ children }) => {
 
     const createCampaign = async (campaign) => {
         const { title, description, amount, deadline } = campaign;
-        const web3Modal = new Web3Modal();  // Ensure correct import
+        const web3Modal = new Web3Modal();
         const connection = await web3Modal.connect();
         const provider = new ethers.providers.Web3Provider(connection);
         const signer = provider.getSigner();
         const contract = fetchContract(signer);
 
         try {
-            const transaction = await contract.createCampaign(  // Fixed typo
+            const transaction = await contract.createCampaign(
                 currentAccount, // owner
                 title, // title
                 description, // description
-                ethers.utils.parseUnits(amount, 18),
-                new Date(deadline).getTime()
+                ethers.utils.parseUnits(amount, 18), // amount
+                new Date(deadline).getTime() // deadline
             );
 
             await transaction.wait();
@@ -88,7 +86,7 @@ export const CrowdFundingProvider = ({ children }) => {
     };
 
     const donate = async (pId, amount) => {
-        const web3Modal = new Web3Modal();  // Ensure correct import
+        const web3Modal = new Web3Modal();
         const connection = await web3Modal.connect();
         const provider = new ethers.providers.Web3Provider(connection);
         const signer = provider.getSigner();
@@ -99,8 +97,6 @@ export const CrowdFundingProvider = ({ children }) => {
         });
 
         await campaignData.wait();
-        // Consider updating state or using other means to reflect changes instead of location.reload()
-
         return campaignData;
     };
 
@@ -123,7 +119,6 @@ export const CrowdFundingProvider = ({ children }) => {
         return parsedDonations;
     };
 
-    // ---CHECK IF WALLET IS CONNECTED
     const checkIfWalletConnected = async () => {
         try {
             if (!window.ethereum) return console.log("Install MetaMask");
@@ -144,7 +139,6 @@ export const CrowdFundingProvider = ({ children }) => {
         checkIfWalletConnected();
     }, []);
 
-    // ---CONNECT WALLET FUNCTION
     const connectWallet = async () => {
         try {
             if (!window.ethereum) return console.log("Install MetaMask");
