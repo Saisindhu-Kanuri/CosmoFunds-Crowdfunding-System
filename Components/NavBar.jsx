@@ -8,7 +8,7 @@ const NavBar = () => {
   const { currentAccount, connectWallet } = useContext(CrowdFundingContext);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  const menuList = ["White Paper", "Project", "Donation", "Members"];
+  const menuList = ["Campaigns", "Donors", "Testimonials", "FAQs"];
 
   return (
     <div className="backgroundMain">
@@ -23,7 +23,7 @@ const NavBar = () => {
             >
               <Logo color="text-white" />
               <span className="ml-2 text-xl font-bold tracking-wide text-gray-100 uppercase">
-                Company
+                CosmoFunds
               </span>
             </a>
             <ul className="flex items-center hidden space-x-8 lg:flex">
@@ -44,14 +44,16 @@ const NavBar = () => {
           {!currentAccount && (
             <ul className="flex items-center hidden space-x-8 lg:flex">
               <li>
-                <button
-                  onClick={connectWallet}
-                  className="inline-flex items-center justify-center h-12 px-6 font-medium tracking-wide text-white transition duration-200 rounded shadow-md bg-deep-purple-accent-400 hover:bg-deep-purple-accent-700 focus:shadow-outline focus:outline-none background"
-                  aria-label="Connect Wallet"
-                  title="Connect Wallet"
-                >
-                  Connect Wallet
-                </button>
+              <button
+    onClick={connectWallet}
+    className="inline-flex items-center justify-center h-12 px-6 font-medium tracking-wide text-black bg-white transition duration-200 rounded shadow-md hover:bg-gray-100 focus:shadow-outline focus:outline-none"
+    aria-label="Connect Wallet"
+    title="Connect Wallet"
+>
+    Connect Wallet
+</button>
+
+
               </li>
             </ul>
           )}

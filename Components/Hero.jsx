@@ -11,7 +11,7 @@ const Hero = ({ titleData, createCampaign }) => {
     const createNewCampaign = async (e) => {
         e.preventDefault();
         try {
-            const data = await createCampaign(campaign);
+            await createCampaign(campaign);
         } catch (error) {
             console.log(error);
         }
@@ -21,11 +21,11 @@ const Hero = ({ titleData, createCampaign }) => {
         <div className="relative">
             <span className="coverLine"></span>
             <img
-                src="https://images.pexels.com/photos/3228766/pexels-photo-3228766.jpeg?auto=compress&amp;cs=tinysrgb&amp;dpr=2&amp;h=750&amp;w=1260"
+                src="https://images.pexels.com/photos/1595387/pexels-photo-1595387.jpeg?auto=compress&amp;cs=tinysrgb&amp;dpr=2&amp;h=750&amp;w=1260"
                 className="absolute inset-0 object-cover w-full h-full"
-                alt=""
+                alt="Hero Background"
             />
-            <div className="relative bg-opacity-75 backgroundMain">
+            <div className="relative bg-opacity-75 bg-black">
                 <svg
                     className="absolute inset-x-0 bottom-0 text-white"
                     viewBox="0 0 1160 163"
@@ -39,39 +39,38 @@ const Hero = ({ titleData, createCampaign }) => {
                     <div className="flex flex-col items-center justify-between xl:flex-row">
                         <div className="w-full max-w-xl mb-12 xl:mb-0 xl:pr-16 xl:w-7/12">
                             <h2 className="max-w-lg mb-6 font-sans text-3xl font-bold tracking-tight text-white sm:text-5xl sm:leading-none">
-                                Crypto King <br className="hidden md:block" />
-                                Crowd Funding CK
+                                CosmoFunds <br className="hidden md:block" />
+                                CrowdFunding Platform
                             </h2>
                             <p className="max-w-xl mb-4 text-base text-gray-200 md:text-lg">
-                                Sed ut perspiciatis unde omnis iste natus error sit voluptatem 
-                                accusantium doloremque laudan, totam rem aperiam, eaque ipsa 
-                                quae.
+                                Unlock financial support for your innovative projects. CosmoFunds connects you with investors to make your dreams come true.
                             </p>
-                            <a 
-                                href=""
-                                aria-label=""
-                                className="inline-flex items-center font-semibold tracking-wider transition-colors duration-200 text-teal-accent-400 hover: text-teal-accent-700 text-gray-200"
+                            <a
+                                href="#"
+                                aria-label="Learn more about our services"
+                                className="inline-flex items-center font-semibold tracking-wider text-gray-200 hover:text-gray-300 transition-colors duration-200"
                             >
                                 Learn more
-                                <svg 
-                                    className="inline-block w-3 ml-2"
+                                <svg
+                                    className="inline-block w-5 h-5 ml-1"
                                     fill="currentColor"
-                                    viewBox="0 0 12 12"
+                                    viewBox="0 0 24 24"
+                                    xmlns="http://www.w3.org/2000/svg"
                                 >
-                                    <path d="M9.707,5.2931-5-5A1,1,0,0,0,3.293,1.707L7.586,6,3.293,10.293a1,1,0,1,0,1.414,1.41415-5A1,1,0,0,0,9.707,5.293Z"/>
+                                    <path d="M9.293 16.293a1 1 0 0 1 0-1.414L13.586 12 9.293 7.707a1 1 0 0 1 1.414-1.414L15.414 12l-4.707 4.707a1 1 0 0 1-1.414 0z"/>
                                 </svg>
                             </a>
                         </div>
                         <div className="w-full max-w-xl xl:px-8 xl:w-5/12">
                             <div className="bg-white rounded shadow-2xl p-7 sm:p-10">
-                                <h3 className="mb-4 text-xl font-semibold sm:text-center sm:mb-6 sm:text-2x1">
-                                    Campaign
+                                <h3 className="mb-4 text-xl font-semibold sm:text-center sm:mb-6 sm:text-2xl">
+                                    Create Your Campaign
                                 </h3>
-                                <form>
-                                    <div className="mb-1 sm:mb-2">
+                                <form onSubmit={createNewCampaign}>
+                                    <div className="mb-4">
                                         <label
-                                            htmlFor="firstName"
-                                            className="inline-block mb-1 font-medium"
+                                            htmlFor="title"
+                                            className="block mb-2 text-sm font-medium text-gray-700"
                                         >
                                             Title
                                         </label>
@@ -82,18 +81,17 @@ const Hero = ({ titleData, createCampaign }) => {
                                                     title: e.target.value,
                                                 })
                                             }
-                                            placeholder="title"
+                                            placeholder="Campaign Title"
                                             required
                                             type="text"
-                                            className="flex-grow w-full h-12 px-4 mb-2 transition duration-200 bg-white border border-gray-300 rounded shadow-sm appearance-none focus:border-deep-purple-accent-400 focus:outline-none focus: shadow-outline"
-                                            id="firstName"
-                                            name="firstName"
+                                            className="w-full h-12 px-4 border border-gray-300 rounded shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                                            id="title"
                                         />
                                     </div>
-                                    <div className="mb-1 sm:mb-2">
+                                    <div className="mb-4">
                                         <label
-                                            htmlFor="lastName"
-                                            className="inline-block mb-1 font-medium"
+                                            htmlFor="description"
+                                            className="block mb-2 text-sm font-medium text-gray-700"
                                         >
                                             Description
                                         </label>
@@ -104,18 +102,17 @@ const Hero = ({ titleData, createCampaign }) => {
                                                     description: e.target.value,
                                                 })
                                             }
-                                            placeholder="description"
+                                            placeholder="Campaign Description"
                                             required
                                             type="text"
-                                            className="flex-grow w-full h-12 px-4 mb-2 transition duration-200 bg-white border border-gray-300 rounded shadow-sm appearance-none focus:border-deep-purple-accent-400 focus:outline-none focus: shadow-outline"
-                                            id="lastName"
-                                            name="lastName"
+                                            className="w-full h-12 px-4 border border-gray-300 rounded shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                                            id="description"
                                         />
                                     </div>
-                                    <div className="mb-1 sm:mb-2">
+                                    <div className="mb-4">
                                         <label
-                                            htmlFor="email"
-                                            className="inline-block mb-1 font-medium"
+                                            htmlFor="amount"
+                                            className="block mb-2 text-sm font-medium text-gray-700"
                                         >
                                             Target Amount
                                         </label>
@@ -126,18 +123,17 @@ const Hero = ({ titleData, createCampaign }) => {
                                                     amount: e.target.value,
                                                 })
                                             }
-                                            placeholder="amount"
+                                            placeholder="Amount"
                                             required
                                             type="text"
-                                            className="flex-grow w-full h-12 px-4 mb-2 transition duration-200 bg-white border border-gray-300 rounded shadow-sm appearance-none focus:border-deep-purple-accent-400 focus:outline-none focus: shadow-outline"
-                                            id="email"
-                                            name="email"
+                                            className="w-full h-12 px-4 border border-gray-300 rounded shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                                            id="amount"
                                         />
                                     </div>
-                                    <div className="mb-1 sm:mb-2">
+                                    <div className="mb-4">
                                         <label
-                                            htmlFor="date"
-                                            className="inline-block mb-1 font-medium"
+                                            htmlFor="deadline"
+                                            className="block mb-2 text-sm font-medium text-gray-700"
                                         >
                                             Deadline
                                         </label>
@@ -148,25 +144,22 @@ const Hero = ({ titleData, createCampaign }) => {
                                                     deadline: e.target.value,
                                                 })
                                             }
-                                            placeholder="Date"
                                             required
                                             type="date"
-                                            className="flex-grow w-full h-12 px-4 mb-2 transition duration-200 bg-white border border-gray-300 rounded shadow-sm appearance-none focus:border-deep-purple-accent-400 focus:outline-none focus: shadow-outline"
-                                            id="date"
-                                            name="date"
+                                            className="w-full h-12 px-4 border border-gray-300 rounded shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                                            id="deadline"
                                         />
                                     </div>
-                                    <div className="mb-1 mb-2 sm:mb-4">
+                                    <div className="mb-4">
                                         <button
-                                            onClick={(e) => createNewCampaign(e)}
                                             type="submit"
-                                            className="inline-flex items-center justify-center w-full h-12 px-6 font-medium tracking-wide text-white transition duration-200 rounded shadow-md bg-deep-purple-accent-400 hover:bg-deep-purple-accent-700 focus: shadow-outline focus:outline-none newColor"
+                                            className="w-full h-12 px-6 font-medium tracking-wide text-white bg-black rounded shadow-md hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
                                         >
                                             Create Campaign
                                         </button>
                                     </div>
-                                    <p className="text-xs text-gray-600 sm:text-sm">
-                                        Create your Campaign and raise funds
+                                    <p className="text-xs text-gray-600 sm:text-sm text-center">
+                                        Create your campaign, raise funds effortlessly!
                                     </p>
                                 </form>
                             </div>

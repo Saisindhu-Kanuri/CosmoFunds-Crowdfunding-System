@@ -1,12 +1,8 @@
 import React, { useState, useEffect } from "react";
 import Web3Modal from "web3modal";
-import { ethers, providers } from "ethers";
+import { ethers } from "ethers";
+import { CrowdFundingABI, CrowdFundingAddress, handleNetworkSwitch } from "./constants";
 
-
-import { CrowdFundingABI, CrowdFundingAddress } from "./constants";
-let provider = new ethers.providers.JsonRpcProvider(
-    "HTTP://172.20.80.1:7545"
-  );
 function fetchContract(signerOrProvider) {
     return new ethers.Contract(CrowdFundingAddress, CrowdFundingABI, signerOrProvider);
 }
@@ -42,47 +38,54 @@ export const CrowdFundingProvider = ({ children }) => {
     };
 
     const getCampaigns = async () => {
-        const provider = new ethers.providers.JsonRpcProvider();
+        const provider = new ethers.providers.JsonRpcProvider("http://127.0.0.1:7545"); // Use Ganache URL
         const contract = fetchContract(provider);
 
-        const campaigns = await contract.getCampaigns();
+        try {
+            const campaigns = await contract.getCampaigns();
 
-        const parsedCampaigns = campaigns.map((campaign, i) => ({
-            owner: campaign.owner,
-            title: campaign.title,
-            description: campaign.description,
-            target: ethers.utils.formatEther(campaign.target.toString()),
-            deadline: campaign.deadline.toNumber(),
-            amountCollected: ethers.utils.formatEther(campaign.amountCollected.toString()),
-            pId: i,
-        }));
+            const parsedCampaigns = campaigns.map((campaign, i) => ({
+                owner: campaign.owner,
+                title: campaign.title,
+                description: campaign.description,
+                target: ethers.utils.formatEther(campaign.target.toString()),
+                deadline: campaign.deadline.toNumber(),
+                amountCollected: ethers.utils.formatEther(campaign.amountCollected.toString()),
+                pId: i,
+            }));
 
-        return parsedCampaigns;
+            return parsedCampaigns;
+        } catch (error) {
+            console.log("Error fetching campaigns", error);
+        }
     };
 
     const getUserCampaigns = async () => {
-        const provider = new ethers.providers.JsonRpcProvider();
+        const provider = new ethers.providers.JsonRpcProvider("http://127.0.0.1:7545"); // Use Ganache URL
         const contract = fetchContract(provider);
 
-        const allCampaigns = await contract.getCampaigns();
+        try {
+            const allCampaigns = await contract.getCampaigns();
+            const accounts = await window.ethereum.request({ method: "eth_accounts" });
+            const currentUser = accounts[0];
 
-        const accounts = await window.ethereum.request({ method: "eth_accounts" });
-        const currentUser = accounts[0];
+            const filteredCampaigns = allCampaigns.filter(
+                (campaign) => campaign.owner === currentUser
+            );
+            const userData = filteredCampaigns.map((campaign, i) => ({
+                owner: campaign.owner,
+                title: campaign.title,
+                description: campaign.description,
+                target: ethers.utils.formatEther(campaign.target.toString()),
+                deadline: campaign.deadline.toNumber(),
+                amountCollected: ethers.utils.formatEther(campaign.amountCollected.toString()),
+                pId: i,
+            }));
 
-        const filteredCampaigns = allCampaigns.filter(
-            (campaign) => campaign.owner === currentUser
-        );
-        const userData = filteredCampaigns.map((campaign, i) => ({
-            owner: campaign.owner,
-            title: campaign.title,
-            description: campaign.description,
-            target: ethers.utils.formatEther(campaign.target.toString()),
-            deadline: campaign.deadline.toNumber(),
-            amountCollected: ethers.utils.formatEther(campaign.amountCollected.toString()),
-            pId: i,
-        }));
-
-        return userData;
+            return userData;
+        } catch (error) {
+            console.log("Error fetching user campaigns", error);
+        }
     };
 
     const donate = async (pId, amount) => {
@@ -92,31 +95,39 @@ export const CrowdFundingProvider = ({ children }) => {
         const signer = provider.getSigner();
         const contract = fetchContract(signer);
 
-        const campaignData = await contract.donateToCampaign(pId, {
-            value: ethers.utils.parseEther(amount),
-        });
+        try {
+            const campaignData = await contract.donateToCampaign(pId, {
+                value: ethers.utils.parseEther(amount),
+            });
 
-        await campaignData.wait();
-        return campaignData;
+            await campaignData.wait();
+            return campaignData;
+        } catch (error) {
+            console.log("Error donating to campaign", error);
+        }
     };
 
     const getDonations = async (pId) => {
-        const provider = new ethers.providers.JsonRpcProvider();
+        const provider = new ethers.providers.JsonRpcProvider("http://127.0.0.1:7545"); // Use Ganache URL
         const contract = fetchContract(provider);
 
-        const donations = await contract.getDonators(pId);
-        const numberOfDonations = donations[0].length;
+        try {
+            const donations = await contract.getDonators(pId);
+            const numberOfDonations = donations[0].length;
 
-        const parsedDonations = [];
+            const parsedDonations = [];
 
-        for (let i = 0; i < numberOfDonations; i++) {
-            parsedDonations.push({
-                donator: donations[0][i],
-                donation: ethers.utils.formatEther(donations[1][i].toString()),
-            });
+            for (let i = 0; i < numberOfDonations; i++) {
+                parsedDonations.push({
+                    donator: donations[0][i],
+                    donation: ethers.utils.formatEther(donations[1][i].toString()),
+                });
+            }
+
+            return parsedDonations;
+        } catch (error) {
+            console.log("Error fetching donations", error);
         }
-
-        return parsedDonations;
     };
 
     const checkIfWalletConnected = async () => {
@@ -161,6 +172,7 @@ export const CrowdFundingProvider = ({ children }) => {
                 donate,
                 getDonations,
                 connectWallet,
+                handleNetworkSwitch,
             }}
         >
             {children}

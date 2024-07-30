@@ -1,62 +1,65 @@
 import React from "react";
 
 const Footer = () => {
-    const productList = ["Market", "ERC20 Token", "Donation"];
+    const productList = ["Token Features", "Rewards", "Marketplace"];
     const contactList = [
-        "support@cryptoking.com",
-        "info@example.com",
-        "Contact us"
+        "cosmofunds@support.com",
+        "Contact Us"
     ];
-    const usefulLink = ["Home", "About Us", "Company Bio"];
-    return(
-        <footer className="text-center text-white backgroundMain lg:text-left">
+    const usefulLinks = ["Home", "About Us", "Company Bio"];
+
+    return (
+        <footer className="text-center text-white bg-black lg:text-left">
             <div className="mx-6 py-10 text-center md:text-left">
-                <div className="grid-1 grid gap-8 md:grid-cols-2 lg:grid-cols-4">
-                    <div className="">
+                <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
+                    <div>
                         <h6 className="mb-4 flex items-center justify-center font-semibold uppercase md:justify-start">
-                            Crypto King
+                            CosmoFunds
                         </h6>
-                        <p>
-                            Here you can use rows and columns to organize your footer content.
-                            Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                        <p className="text-left">
+                            Effortlessly create and manage your crowdfunding campaigns with us,<br />
+                            and enjoy a completely hassle-free experience.
                         </p>
                     </div>
-                    <div className="">
-                        <h6 className="mb-4 flex justify-center font-semibold uppercase md:justify-start">
+
+                    <div>
+                        <h6 className="mb-4 font-semibold uppercase text-center md:text-left">
                             Products
                         </h6>
-                        {productList.map((el, i) => (
-                            <p className="mb-4" key={i}>
-                                <a href="#!">{el}</a>
+                        {productList.map((item, index) => (
+                            <p className="mb-4" key={index}>
+                                <a href="#!" className="text-white hover:text-gray-400">{item}</a>
                             </p>
                         ))}
                     </div>
-                    <div className="">
-                        <h6 className="mb-4 flex justify-center font-semibold uppercase md:justify-start">
-                            Useful links
-                        </h6>
-                        {usefulLink.map((el, i) => (
-                            <p className="mb-4" key={i}>
-                                <a href="#!">{el}</a>
-                            </p>
-                        ))}
-                    </div>
+
                     <div>
-                        <h6 className="mb-4 flex justify-center font-semibold uppercase md:justify-start">
+                        <h6 className="mb-4 font-semibold uppercase text-center md:text-left">
+                            Useful Links
+                        </h6>
+                        {usefulLinks.map((link, index) => (
+                            <p className="mb-4" key={index}>
+                                <a href="#!" className="text-white hover:text-gray-400">{link}</a>
+                            </p>
+                        ))}
+                    </div>
+
+                    <div>
+                        <h6 className="mb-4 font-semibold uppercase text-center md:text-left">
                             Contact
                         </h6>
-                        {contactList.map((el, i) => (
-                            <p className="mb-4" key={i}>
-                                <a href="#!">{el}</a>
+                        {contactList.map((contact, index) => (
+                            <p className="mb-4" key={index}>
+                                <a href={`mailto:${contact}`} className="text-white hover:text-gray-400">{contact}</a>
                             </p>
                         ))}
                     </div>
                 </div>
             </div>
-            <div className="backgroundMain p-6 text-center">
-                <span>© 2023 Copyright:</span>
-                <a className="font-semibold" href="https://tailwind-elements.com/">
-                    Crypto King
+            <div className="bg-black p-6 text-center">
+                <span>© 2024 Copyright: </span>
+                <a className="font-semibold text-white hover:text-gray-400" href="https://tailwind-elements.com/">
+                    CosmoFunds
                 </a>
             </div>
         </footer>
